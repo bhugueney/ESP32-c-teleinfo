@@ -1,0 +1,59 @@
+esphome:
+  name: teleinfo
+  platform: ESP32
+  board: esp-wrover-kit
+
+  # déclaration du fichier source du composant teleinfo
+  includes:
+    - teleinfo/src/teleinfo.h
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+  
+  # Configuration Adresse IP fixe
+  # manual_ip:
+  #   static_ip: <ESP32 IP>
+  #   gateway: <GATEWAY IP>
+  #   subnet: <SUBNET MASK>
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Teleinfo Fallback Hotspot"
+    password: !secret ap_pass
+
+captive_portal:
+
+# Activation du Serveur Web
+web_server:
+  port: 80
+
+# Activation des traces
+logger:
+
+# Activation de l'API Home Assistant
+api:
+  # reboot_timeout: 15min
+  port: 6053
+  password: !secret ota_pass
+
+# Ajout mmise à jour par OTA
+ota:
+  # safe_mode: true
+  port: 3232
+  password: !secret ota_pass
+
+# ajout du composant uart pour la communication série avec la sortie TIC du compteur
+uart:
+  id: uart_bus
+  tx_pin: GPIO1
+  rx_pin: GPIO3
+  baud_rate: 1200
+  parity: EVEN
+  data_bits: 7
+  stop_bits: 1
+
+custom_component:
+- lambda: |-
+    auto my_teleinfo = new MyTeleinfo(id(uart_bus));
+    return {my_teleinfo};

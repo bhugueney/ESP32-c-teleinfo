@@ -164,3 +164,16 @@ Dans le tableau ASCII, la valeur décimale correspondant à `66` correspond à u
 ### Le script C
 
 ### Le fichier YAML
+
+Le fichier [teleinfo.yaml](ESP32/teleinfo.yaml) permet la définition :
+
+- du nom de l'appareil
+- de la plateforme utilisée
+- des paramètres de connexion :
+  - au WiFi
+  - au serveur Web interne
+  - à l'API interne
+  - pour l'OTA
+- de la liaison série (UART) utilisé par le TIC ENEDIS
+- des traces
+- du script externe utilisé pour *l'intelligence* de l'ESP32
