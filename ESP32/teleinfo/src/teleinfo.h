@@ -37,8 +37,18 @@ class MyTeleinfo : public Component, public UARTDevice {
         // On retourne vrai
       // Sinon, on retourne faux
 
+/* commentaires de bernard :
+sur Arduino, on peut faire du C++ (cf. String) ou du C. Pour des raisons de mémoire linitée, il vaut mieux faire le maximum de choses en C.
+Le problème est pour les chaînes de caractères : en C ce sont juste des tableaux de char, et il vaut mieux souvent définir une taille max.
+Donc la première chose à faire c'est de décider quelle sera la taille max de la trame (1024 caractères ? 4096 ? plus ?). Pareil pour
+les différents composants de la trame : définir des tailles max en nb de caractères pour avoir un tableau de cette taille et le réutiliser
+(on peut être plus rusé et traiter directement des sous-chaînes de caractères dans le tableau, mais c'est moins propre car il faut alors mettre
+des terminateurs de chaine de caractère '\0' dans le tableau.
+En effet, en C, les chaines de caractère sont juste définies par l'adresse du début, et elles continues jusqu' au caractère '\0'.
 
-
+L'origine des données de la trame n'est pas très claire : readString() ? le read() dans la boucle ?
+*/
+Ce n'est pas très clair d'où
   void loop() override {
     // Use Arduino API to read data, for example
     String line = readString();
